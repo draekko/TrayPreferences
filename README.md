@@ -1,5 +1,3 @@
-# DEPRECATED - no longer actively maintained
-
 # Tray - a SharedPreferences replacement for Android
 
 [![Build Status](https://travis-ci.org/grandcentrix/tray.svg?branch=master)](https://travis-ci.org/grandcentrix/tray) [![License](https://img.shields.io/badge/license-Apache%202-green.svg?style=flat)](https://github.com/grandcentrix/tray/blob/master/LICENSE.txt)
@@ -139,36 +137,16 @@ public class ImportPreferences extends TrayPreferences {
 }
 ```
 
-## Getting Started
+## Getting Started [![Download](https://api.bintray.com/packages/passsy/maven/Tray/images/download.svg) ](https://bintray.com/passsy/maven/Tray/_latestVersion)
 
 ##### Add Tray to your project
 
-###### GitHub Packages
+Tray is available via [jcenter](http://blog.bintray.com/2015/02/09/android-studio-migration-from-maven-central-to-jcenter/)
 
-```gradle
-
-repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/grandcentrix/tray")
-    }
-}
+```java
 
 dependencies {
-    implementation "net.grandcentrix.tray:tray:0.12.0"
-}
-
-```
-
-###### JCenter (deprecated)
-
-```gradle
-
-repositories {
-    jcenter()
-}
-
-dependencies {
-    implementation "net.grandcentrix.tray:tray:0.12.0"
+    compile 'net.grandcentrix.tray:tray:0.12.0'
 }
 
 ```

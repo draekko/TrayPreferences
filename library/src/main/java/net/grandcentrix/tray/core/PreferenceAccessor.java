@@ -16,8 +16,8 @@
 
 package net.grandcentrix.tray.core;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.Collection;
 
@@ -99,6 +99,24 @@ public interface PreferenceAccessor<T> {
      *                            {@link Float}
      */
     float getFloat(@NonNull final String key, final float defaultValue) throws WrongTypeException;
+
+    /**
+     * @param key the key to map the value
+     * @return float value for param key
+     * @throws ItemNotFoundException if data could not be mapped to the param key
+     * @throws WrongTypeException    data was saved with a different format and could not be parsed
+     *                               to {@link Float}
+     */
+    double getDouble(@NonNull final String key) throws ItemNotFoundException, WrongTypeException;
+
+    /**
+     * @param key          the key to map the value
+     * @param defaultValue if no data is stored for param key
+     * @return float value for param key, or the param defaultValue
+     * @throws WrongTypeException data was saved with a different format and could not be parsed to
+     *                            {@link Float}
+     */
+    double getDouble(@NonNull final String key, final double defaultValue) throws WrongTypeException;
 
     /**
      * @param key the key to map the value
@@ -195,6 +213,16 @@ public interface PreferenceAccessor<T> {
      * @throws IllegalArgumentException empty string value was passed as the key
      */
     boolean put(@NonNull final String key, final float value);
+
+    /**
+     * saves a {@link Double} mapped to param key
+     *
+     * @param key   the key to map the value
+     * @param value the data to save
+     * @return whether the put was successful
+     * @throws IllegalArgumentException empty string value was passed as the key
+     */
+    boolean put(@NonNull final String key, final double value);
 
     /**
      * saves a {@link Long} mapped to param key

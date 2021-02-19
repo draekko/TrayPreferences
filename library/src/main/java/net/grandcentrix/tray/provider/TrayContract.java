@@ -21,15 +21,15 @@ import net.grandcentrix.tray.core.TrayLog;
 import net.grandcentrix.tray.core.TrayRuntimeException;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.net.Uri;
 import android.os.Process;
 import android.provider.BaseColumns;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import android.util.Log;
-
-import java.util.List;
 
 /**
  * Contract defining the data in the {@link TrayContentProvider}. Use {@link TrayProviderHelper} to
@@ -121,17 +121,21 @@ class TrayContract {
 
         checkOldWayToSetAuthority(context);
 
-        // read all providers of the app and find the TrayContentProvider to read the authority
-        final List<ProviderInfo> providers = context.getPackageManager()
-                .queryContentProviders(context.getPackageName(), Process.myUid(), 0);
-        if (providers != null) {
-            for (ProviderInfo provider : providers) {
-                if (provider.name.equals(TrayContentProvider.class.getName())) {
-                    sAuthority = provider.authority;
-                    TrayLog.v("found authority: " + sAuthority);
-                    return sAuthority;
+        try {
+            final PackageInfo pkgInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(),
+                            PackageManager.GET_PROVIDERS);
+            if(null != pkgInfo.providers){
+                for (ProviderInfo provider : pkgInfo.providers) {
+                    if (provider.name.equals(TrayContentProvider.class.getName())) {
+                        sAuthority = provider.authority;
+                        TrayLog.v("found authority: " + sAuthority);
+                        return sAuthority;
+                    }
                 }
             }
+        } catch (final PackageManager.NameNotFoundException e) {
+            Log.e("Tray", "Unable to get PackageInfo of current package " + context.getPackageName(), e);
         }
 
         // Should never happen. Otherwise we implemented tray in a wrong way!

@@ -16,8 +16,8 @@
 
 package net.grandcentrix.tray.core;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Modular implementation of a {@link Preferences} which allows access to a {@link TrayStorage}.
@@ -61,6 +61,26 @@ public abstract class AbstractTrayPreference<T extends TrayStorage> extends
         throwForNullValue(value, Float.class, key);
         try {
             return Float.parseFloat(value);
+        } catch (NumberFormatException e) {
+            throw new WrongTypeException(e);
+        }
+    }
+
+    @Override
+    public double getDouble(@NonNull final String key, final double defaultValue) {
+        try {
+            return getDouble(key);
+        } catch (ItemNotFoundException e) {
+            return defaultValue;
+        }
+    }
+
+    @Override
+    public double getDouble(@NonNull final String key) throws ItemNotFoundException {
+        final String value = getString(key);
+        throwForNullValue(value, Float.class, key);
+        try {
+            return Double.parseDouble(value);
         } catch (NumberFormatException e) {
             throw new WrongTypeException(e);
         }

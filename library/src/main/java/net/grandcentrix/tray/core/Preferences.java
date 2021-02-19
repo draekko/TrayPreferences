@@ -16,8 +16,8 @@
 
 package net.grandcentrix.tray.core;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.util.Collection;
@@ -146,6 +146,15 @@ public abstract class Preferences<T, S extends PreferenceStorage<T>>
 
     @Override
     public boolean put(@NonNull final String key, final float value) {
+        if (!isVersionChangeChecked()) {
+            return false;
+        }
+        v("put '" + key + "=" + value + "' into " + this);
+        return putData(key, value);
+    }
+
+    @Override
+    public boolean put(@NonNull final String key, final double value) {
         if (!isVersionChangeChecked()) {
             return false;
         }
